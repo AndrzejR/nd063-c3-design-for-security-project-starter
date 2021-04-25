@@ -1,0 +1,25 @@
+Based on the architecture diagram, and the steps you have taken so far to upload data and access the application web service, identify at least 2 obvious poor practices as it relates to security.  Include justification.
+
+# Poor practice 1
+Web application's server security group allows all ingress traffic from all hosts:
+      SecurityGroupIngress:
+      - IpProtocol: -1
+        CidrIp: 0.0.0.0/0
+This should be limited to only the necessary traffic according to the principle of the least privilege. Opening all increases the potential attack surface. 
+
+
+# Poor practice 2
+The application server should be in a private subnet - it should not have a public IP and should connect to the Internet through a NAT gateway. Again to limit the attack surface.
+For accesing the application server a bastion host, VDI, or a VPN should be used.
+
+# 3
+Also using key pairs to access the server is not a good practice - PAM with identity federation or Systems Manager could be used instead.
+
+# 4
+No SSL is used for HTTP endpoint - data being exchanged with the server can be intercepted. 
+
+# 5
+S3 buckets do not have "Block public access" enabled - public access may be granted to objects, even though the application is designed to access the objects through the application server, so there's no need for direct public access. 
+
+# 6
+S3 buckets are not encrypted

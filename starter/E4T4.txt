@@ -1,8 +1,12 @@
 
 # What additional architectural change can be made to reduce the internet facing attack surface of the web application instance.
+1. Moving it to a private subnet and removing its public IP.
 
 # Assuming the IAM permissions for the S3 bucket are still insecure, would creating VPC private endpoints for S3 prevent the unauthorized access to the secrets bucket.
+No. They would only allow the traffic to flow within the Amazon network, outside of the public Internet. However, access from within the VPC would still need to be locked down using appropriate policies.
 
 # Will applying default encryption setting to the s3 buckets encrypt the data that already exists?
+No. "After you enable default AWS KMS encryption on your bucket, Amazon S3 applies the default encryption only to new objects that you upload without any specified encryption settings. Default bucket encryption doesn't change the encryption settings of existing objects." - https://aws.amazon.com/premiumsupport/knowledge-center/s3-aws-kms-default-encryption/
 
 # What would happen if the original cloud formation templates are applied to this environment.
+Any manually made changes would be lost, unless the drift is resolved with import (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-resolve-drift.html)

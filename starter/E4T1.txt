@@ -1,5 +1,8 @@
 
 
 # Identify 2-3 changes that can be made to our environment to prevent an ssh brute force attack from the internet.
+Option 1. The access to the instance's port 22 should be available only from trusted IPs. It should be blocked by default in the Security Group, whitelisting only some exceptions.
+Option 2. The instance should not have a public IP at all. It should be configured to be managed using Systems Manager, or, even, better, be treated as an immutable instance, with any changes to it requiring its recreation.
 
 # Neither instance should have had access to the secret recipes bucket, in the even that instance API credentials were compromised how could we have prevented access to sensitive data.
+1. The IAM instance profile used by the instance should allow only access to the free recipes bucket, not read/write to all S3.

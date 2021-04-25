@@ -1,3 +1,13 @@
 Research and analyze which of the vulnerabilities appear to be related to the code that was deployed for the environment in this project.
+1. On the web server instance ports 20, 21, 23 are reachable from the Internet. Those open ports are marked "high" by Inspector. Many more reachable ports are listed with Medium and lower severity.
+2. Config "ec2-instance-no-public-ip" - the web server instance has a public IP.
+3. Config "ec2-instance-managed-by-systems-manager" - instance is not managed by systems manager, it has keypair access instead.
+4. Config "elb-deletion-protection-enabled" - the ALB's deletion protection is set to "disabled". 
+5. Config "ec2-instance-detailed-monitoring-enabled" - detailed monitoring is disabled on the web server instance.
 
 Bonus - provide recommendations on how to remediate the vulnerabilities.
+1. Make the SG of the web server instance allow only TCP traffic on port 5000 - the one that the application is actually using.
+2. Remove the public IP from the web server (and put it into a private subnet) - the traffic is routed through the ALB anyway.
+3. Configure the roles and agents to use Systems Manager for the management of the instance and get rid of the keypair access.
+4. Enable deletion protection on the ALB.
+5. Turn on detailed monitoring for better visibility into instance's health and security.
